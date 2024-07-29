@@ -1,0 +1,13 @@
+[package]
+name = "oceanicp_decoder"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+chrono = { version = "0.4", features = ["serde"] }
+roxmltree = "0.20.0"
+xml = "0.8.20"
+serde = { version = "1.0", features = ["derive"] }
+serde-xml-rs = "0.5"
