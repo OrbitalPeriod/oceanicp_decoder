@@ -1,25 +1,30 @@
-mod models;
+use std::io::Read;
 
-use models::dives::{Dive, Dives};
-use models::file::InputFile;
-use serde_xml_rs::{from_reader, from_str};
-use std::fs::{read, File};
-use std::io::{self, BufRead, BufReader};
+mod uddf_elements;
 
-fn main() {
-    let file_path = "dive_data.uddf";
-    let file = File::open(file_path).expect("Failed to read file");
+fn main() {}
 
-    let reader = BufReader::new(file);
-
-    let xml : InputFile = from_reader(reader).unwrap();
-
-    let dives : Vec<f32> = xml.dives.repitition_group.iter().flat_map(|group| &group.dives).flat_map(|x| x.calculate_sac_rate()).collect();
-    println!("{:?}", dives);
+pub fn get_deserializer(s: &str) -> serde_xml_rs::Deserializer<&[u8]> {
+    serde_xml_rs::Deserializer::new_from_reader(s.as_bytes()).non_contiguous_seq_elements(true)
 }
 
+#[macro_export]
+macro_rules! test_deserialization {
+    ($type:ty, $xml:expr) => {
+        #[cfg(test)]
+        mod tests {
+            use serde::Deserialize;
 
-//todo: Add the Optional note field with rating and para
-//normalize everything to use SI units
-//Organize models some more
-//Set things up to output to different format
+            #[test]
+            fn deserialize() {
+                let mut de = serde_xml_rs::Deserializer::new_from_reader($xml.as_bytes())
+                    .non_contiguous_seq_elements(true);
+                let result: Result<$type, _> = serde::Deserialize::deserialize(&mut de);
+                assert!(result.is_ok());
+            }
+        }
+    };
+}
+
+//https://www.streit.cc/extern/uddf_v321/en/accommodation.html
+//fix the datetime parsing
