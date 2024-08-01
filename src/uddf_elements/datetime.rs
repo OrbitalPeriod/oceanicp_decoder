@@ -1,20 +1,26 @@
-use chrono::Utc;
+
 use serde::Deserialize;
 use serde::de::Deserializer;
 
-#[derive(Debug, Deserialize, Clone)]
+//I currently dont have a good ISO8601 parser, i try with one i found, if it works, i use it, else i use the string
+#[derive(Debug, Clone)]
 pub struct Datetime{
-    //pub datetime : chrono::DateTime<Utc>,
+    pub datetime : iso8601_timestamp::Timestamp,
 }
 
-fn deserialize_category<'de, D>(deserializer: D) -> Result<chrono::DateTime<Utc>, D::Error>
-where
-    D: Deserializer<'de>,
-{
-    let _: String = Deserialize::deserialize(deserializer)?;
-    //iso8601::datetime(&s).map_err(serde::de::Error::custom("Datetime not in correct format"))?;
+impl<'de> Deserialize<'de> for Datetime{
+    fn deserialize<D>(deserializer: D) -> Result<Self, D::Error>
+    where
+        D: Deserializer<'de> 
+    {
+        let s : String = Deserialize::deserialize(deserializer)?;
 
-    todo!("Implement datetime deserialization");
+        match iso8601_timestamp::Timestamp::parse(&s)
+        {
+            Some(timestamp) => Ok(Datetime{datetime: timestamp}),
+            None => Err(serde::de::Error::custom("Invalid ISO8601 format")),
+        }
+    }
 }
 
 crate::test_deserialization!(

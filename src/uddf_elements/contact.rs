@@ -1,12 +1,12 @@
 use serde::Deserialize;
 #[derive(Debug, Deserialize, Clone)]
 pub struct Contact{
-    language : Option<Vec<String>>,
-    phone : Option<Vec<String>>,
-    mobilephone : Option<Vec<String>>,
-    fax : Option<Vec<String>>,
-    email : Option<Vec<String>>,
-    homepage : Option<Vec<String>>,
+    pub language : Option<Vec<String>>,
+    pub phone : Option<Vec<String>>,
+    pub mobilephone : Option<Vec<String>>,
+    pub fax : Option<Vec<String>>,
+    pub email : Option<Vec<String>>,
+    pub homepage : Option<Vec<String>>,
 }
 
 crate::test_deserialization!(
