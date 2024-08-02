@@ -1,7 +1,10 @@
 use serde::Deserialize;
+
+use super::{fauna::Fauna, flora::Flora};
 #[derive(Debug, Deserialize, Clone)]
 pub struct Ecology{
-
+    pub fauna : Option<Fauna>,
+    pub flora : Option<Flora>,
 }
 
 crate::test_deserialization!(

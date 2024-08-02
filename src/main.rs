@@ -28,5 +28,4 @@ macro_rules! test_deserialization {
 
 
 
-//https://www.streit.cc/extern/uddf_v321/en/accommodation.html
-//fix the datetime parsing
+//https://www.streit.cc/extern/uddf_v321/en/output.html
