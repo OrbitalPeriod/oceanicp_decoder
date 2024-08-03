@@ -29,6 +29,15 @@ mod mixchange;
 mod objectname;
 mod observations;
 mod operator;
+mod output;
+mod owner;
+mod diveinsurance;
+mod issuedate;
+mod validdate;
+mod certification;
+mod instructor;
+mod personal;
+mod education;
 /*
 use serde::Deserialize;
 #[derive(Debug, Deserialize, Clone)]
